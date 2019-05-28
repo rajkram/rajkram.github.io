@@ -24,6 +24,8 @@
                 console.log(message);
             }
         })
+        document.getElementById("successAndErrorMessages").value="message";
+
         //listener
         pubnub.addListener({
             message: function (m) {
@@ -60,5 +62,5 @@
         });
     </script>
 </body>
-
+<<div id="successAndErrorMessages"></div>>
 </html>
