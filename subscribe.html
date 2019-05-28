@@ -24,7 +24,6 @@
                 console.log(message);
             }
         })
-        document.getElementById("successAndErrorMessages").value="message";
 
         //listener
         pubnub.addListener({
@@ -60,6 +59,8 @@
         pubnub.subscribe({
             channels: ['my_channel']
         });
+        document.getElementById("successAndErrorMessages").value="message";
+
     </script>
 </body>
 <div id="successAndErrorMessages"></div>
