@@ -59,7 +59,14 @@
         pubnub.subscribe({
             channels: ['my_channel']
         });
-        document.getElementById("successAndErrorMessages").innerHTML="message";
+        var div = document.createElement("div");
+        div.style.width = "100px";
+        div.style.height = "100px";
+        div.style.background = "black";
+        div.style.color = "white";
+        div.innerHTML = "Hello";
+
+        //document.getElementById("successAndErrorMessages").innerHTML="message";
 
     </script>
     <div id="successAndErrorMessages"></div>
