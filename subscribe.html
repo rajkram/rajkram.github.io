@@ -9,7 +9,14 @@
 
     <!-- Instantiate PubNub -->
     <script type="text/javascript">
-
+        var div = document.createElement("div");
+        div.style.width = "100px";
+        div.style.height = "100px";
+        div.style.background = "black";
+        div.style.color = "white";
+        div.innerHTML = "Hello";
+        document.getElementById("main").appendChild(div);
+        
         var pubnub = new PubNub({
             subscribeKey: 'demo',
             uuid: 'Subscribe from mobile browser',
@@ -59,13 +66,7 @@
         pubnub.subscribe({
             channels: ['my_channel']
         });
-        var div = document.createElement("div");
-        div.style.width = "100px";
-        div.style.height = "100px";
-        div.style.background = "black";
-        div.style.color = "white";
-        div.innerHTML = "Hello";
-        document.getElementById("main").appendChild(div);
+        
 
 
         //document.getElementById("successAndErrorMessages").innerHTML="message";
