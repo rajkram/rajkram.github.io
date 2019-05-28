@@ -15,6 +15,8 @@
         div.style.background = "black";
         div.style.color = "white";
         div.innerHTML = "Hello";
+        document.getElementById("main").appendChild(div);
+
         
         var pubnub = new PubNub({
             subscribeKey: 'demo',
@@ -71,7 +73,7 @@
         //document.getElementById("successAndErrorMessages").innerHTML="message";
 
     </script>
-    <div id="successAndErrorMessages"></div>
+    <div id="main"></div>
 
 </body>
 </html>
