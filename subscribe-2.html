@@ -1,0 +1,98 @@
+    <!DOCTYPE html>
+<html>
+<head>
+    <title>JS SDK Subscribe Demo</title>
+    <h2>Subscribe to messages</h2>
+</head>
+<body>
+    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.25.1.min.js"></script>
+
+    <!-- Instantiate PubNub -->
+    <script type="text/javascript">
+
+        var pubnub = new PubNub({
+            subscribeKey: 'sub-c-139c85aa-56f7-11e9-a6e0-8a4660381032',
+            uuid: 'javascript SDK user',
+            secretKey:'sec-c-NzIwY2NiOTctNTM0YS00NjIyLThlOWItNmY1ODliZjk2NDcx',
+            ssl:'true',
+            withPresence:'true',
+            //logVerbosity:'true',
+            presenceTimeout: 100,
+            heartbeatInterval:50,
+            //keepAliveMsecs: 1000,
+            requestMessageCountThreshold:2,
+            restore:'true',
+            listenToBrowserNetworkEvents:'true',
+            cipherKey:'234234324',
+            authKeys: 'key1',
+            //useInstanceId:true
+        });
+
+
+        //listener
+        pubnub.addListener({
+            message: function (m) {
+                // handle message
+                var channelName = m.channel; // The channel for which the message belongs
+                var channelGroup = m.subscription; // The channel group or wildcard subscription match (if exists)
+                var pubTT = m.timetoken; // Publish timetoken
+                console.log(channelName);
+                console.log(pubTT);
+                var msg = m.message; // The Payload
+                var publisher = m.publisher; //The Publisher
+                //console.log(channelName, pubTT,msg,publisher);
+                const unixTimestamp = m.timetoken / 10000000;
+                const gmtDate = new Date(unixTimestamp * 1000);
+                const localeDateTime = gmtDate.toLocaleString();
+                console.log(localeDateTime);
+                //document.getElementById('log').innerHTML += channelName;  
+                document.getElementById('log').innerHTML += msg +' ';
+            },
+            presence: function (p) {
+                // handle presence
+                var action = p.action; // Can be join, leave, state-change or timeout
+                var channelName = p.channel; // The channel for which the message belongs
+                var occupancy = p.occupancy; // No. of users connected with the channel
+                var state = p.state; // User State
+                var channelGroup = p.subscription; //  The channel group or wildcard subscription match (if exists)
+                var publishTime = p.timestamp; // Publish timetoken
+                var timetoken = p.timetoken;  // Current timetoken
+                var uuid = p.uuid; // UUIDs of users who are connected with the channel
+                console.log(action,occupancy,uuid);
+            },
+            status: function (s) {
+                var affectedChannelGroups = s.affectedChannelGroups;
+                var affectedChannels = s.affectedChannels;
+                var category = s.category;
+                var operation = s.operation;
+                var lastTimetoken = s.lastTimetoken;
+                var currentTimetoken = s.currentTimetoken;
+                console.log(category,operation,lastTimetoken,currentTimetoken);
+                if (category == 'PNNetworkUpCategory') then 
+                    pubnub.reconnect();
+            },
+            messageAction: function(ma) {
+                // handle message action
+                var channelName = ma.channel; // The channel for which the message belongs
+                var publisher = ma.publisher; //The Publisher
+                var event = ma.message.event; // message action added or removed
+                var type = ma.message.data.type; // message action type
+                var value = ma.message.data.value; // message action value
+                var messageTimetoken = ma.message.data.messageTimetoken; // The timetoken of the original message
+                var actionTimetoken = ma.message.data.actionTimetoken; //The timetoken of the message action
+                console.log("message value = " + value);
+                document.getElementById('ma').innerHTML += value +' '; 
+            }
+        });
+
+        pubnub.subscribe({
+            channels: ['learn','learn-2','learn-signal']
+            //timetoken:'15803410602748065'
+        });
+    </script>
+    <div id="log"></div>
+    <div id="ma"></div>
+
+</body>
+
+</html>
