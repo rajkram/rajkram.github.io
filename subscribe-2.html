@@ -37,7 +37,7 @@
                 var pubTT = m.timetoken; // Publish timetoken
                 console.log(channelName);
                 console.log(pubTT);
-                var msg = m.message; // The Payload
+                var msg = JSON.stringify(m.message); // The Payload
                 var publisher = m.publisher; //The Publisher
                 //console.log(channelName, pubTT,msg,publisher);
                 const unixTimestamp = m.timetoken / 10000000;
