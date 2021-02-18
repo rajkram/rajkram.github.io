@@ -67,7 +67,7 @@
                 var lastTimetoken = s.lastTimetoken;
                 var currentTimetoken = s.currentTimetoken;
                 console.log(category,operation,lastTimetoken,currentTimetoken);
-                if (category == 'PNNetworkUpCategory') then 
+                if (category == 'PNNetworkUpCategory') 
                     pubnub.reconnect();
             },
             messageAction: function(ma) {
@@ -85,7 +85,7 @@
         });
 
         pubnub.subscribe({
-            channels: ['learn','learn-2','learn-signal']
+            channels: ['learn']
             //timetoken:'15803410602748065'
         });
     </script>
