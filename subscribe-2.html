@@ -5,25 +5,31 @@
     <h2>Subscribe to messages</h2>
 </head>
 <body>
-    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.25.1.min.js"></script>
+    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.29.1.min.js"></script>
 
     <!-- Instantiate PubNub -->
     <script type="text/javascript">
 
         var pubnub = new PubNub({
             subscribeKey: 'sub-c-139c85aa-56f7-11e9-a6e0-8a4660381032',
-            uuid: 'javascript SDK user',
+            uuid: 'user-10',
             ssl:'true',
             withPresence:'true',
-            //logVerbosity:'true',
-            presenceTimeout: 100,
-            heartbeatInterval:50,
+            logVerbosity:'true',
+            keepAlive : 'true',
+            //presenceTimeout: 0,
+            //heartbeatInterval:0,
             //keepAliveMsecs: 1000,
-            requestMessageCountThreshold:2,
+            //requestMessageCountThreshold:2,
             restore:'true',
-            listenToBrowserNetworkEvents:'true',
-            cipherKey:'234234324',
-            authKeys: 'key1',
+            //listenToBrowserNetworkEvents:'false',
+            //cipherKey:'234234324',
+            //authKeys: '40a1e987-55b7-4d23-94ee-0c05b851d5e5',
+            authKeys: '40a1e987-55b7-4d23-94ee-0c05b851d5e5',
+            //suppressLeaveEvents : 'true',
+            //autoNetworkDetection : 'true'
+            //origin : 'livexlive.pubnubapi.com'
+
             //useInstanceId:true
         });
 
@@ -37,6 +43,7 @@
                 var pubTT = m.timetoken; // Publish timetoken
                 console.log(channelName);
                 console.log(pubTT);
+                var event = JSON.stringify(m.message.event); // message action added or removed
                 var msg = JSON.stringify(m.message); // The Payload
                 var publisher = m.publisher; //The Publisher
                 //console.log(channelName, pubTT,msg,publisher);
@@ -44,7 +51,7 @@
                 const gmtDate = new Date(unixTimestamp * 1000);
                 const localeDateTime = gmtDate.toLocaleString();
                 console.log(localeDateTime);
-                //document.getElementById('log').innerHTML += channelName;  
+                //document.getElementById('log').innerHTML += channelName;
                 document.getElementById('log').innerHTML += msg +' ';
             },
             presence: function (p) {
@@ -67,7 +74,7 @@
                 var lastTimetoken = s.lastTimetoken;
                 var currentTimetoken = s.currentTimetoken;
                 console.log(category,operation,lastTimetoken,currentTimetoken);
-                if (category == 'PNNetworkUpCategory') 
+                if (category == 'PNNetworkUpCategory')
                     pubnub.reconnect();
             },
             messageAction: function(ma) {
@@ -80,14 +87,24 @@
                 var messageTimetoken = ma.message.data.messageTimetoken; // The timetoken of the original message
                 var actionTimetoken = ma.message.data.actionTimetoken; //The timetoken of the message action
                 console.log("message value = " + value);
-                document.getElementById('ma').innerHTML += value +' '; 
+                document.getElementById('ma').innerHTML += value +' ';
             }
         });
 
         pubnub.subscribe({
+            //channels: ['learn','learn-2','learn-signal']
+            //channelGroup;['chg2']
             channels: ['learn']
             //timetoken:'15803410602748065'
         });
+
+        //pubnub.setFilterExpression("language == 'french'");
+
+        //var filterExprStr = "uuid != '" + pubnub.getUUID() + "'";
+        //console.log("filter = " + valfilterExprStrue);
+
+        //pubnub.setFilterExpression(filterExprStr);
+
     </script>
     <div id="log"></div>
     <div id="ma"></div>
